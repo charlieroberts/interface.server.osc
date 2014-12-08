@@ -15,5 +15,12 @@
     "interface.server"
   ],
   "author": "Charlie Roberts <charlie@charlie-roberts.com> (http://www.charlie-roberts.com/)",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charlieroberts/interface.server.osc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charlieroberts/interface.server.osc/issues"
+  }
 }
