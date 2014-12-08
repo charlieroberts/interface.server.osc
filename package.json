@@ -1,0 +1,19 @@
+{
+  "name": "interface.server.osc",
+  "version": "0.0.0",
+  "description": "osc module for interface.server",
+  "main": "OSC.js",
+  "dependencies": {
+    "osc-min": "~0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "osc",
+    "interface.server"
+  ],
+  "author": "Charlie Roberts <charlie@charlie-roberts.com> (http://www.charlie-roberts.com/)",
+  "license": "MIT"
+}
