@@ -18,7 +18,7 @@ OSC = {
     this.__proto__ = new (require( 'events' ).EventEmitter)()
     this.__proto__.setMaxListeners( 0 )
     // remote handles input OSC messages for remote control
-    var remotePort = IS.config.remotePortOSC || 8081
+    var remotePort = IS.config.transports.osc.remoteControlPort || 8081
     this.remote = this.receiver( remotePort, 'remote' )
     
     this.out = udp.createSocket( 'udp4' )
@@ -38,6 +38,7 @@ OSC = {
           oscMsg  = oscMin.fromBuffer( rawMsg ),
           args    = _.pluck( oscMsg.args, 'value' )
       
+      console.log( "RECEIVED", oscMsg )
       args.unshift( oscMsg.address ) // switchboard.route accepts one array argument with path at beginning
       args.push( address ) // push ip address to end of message              
 
