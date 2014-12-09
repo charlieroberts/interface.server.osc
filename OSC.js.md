@@ -46,11 +46,10 @@ will be named with a uuid. Return the newly opened socket for event handling.
               oscMsg  = oscMin.fromBuffer( rawMsg ),
               args    = _.pluck( oscMsg.args, 'value' )
           
-          console.log( "RECEIVED", oscMsg )
           args.unshift( oscMsg.address ) // switchboard.route accepts one array argument with path at beginning
-          args.push( address ) // push ip address to end of message              
+          //args.push( address ) // push ip address to end of message              
     
-          var shouldReply = OSC.app.switchboard.route.apply( OSC.app.switchboard, args )
+          var shouldReply = OSC.app.switchboard.route.call( OSC.app.switchboard, args, address )
           if( shouldReply ) {
             // TODO: where should the result be sent to???
           }
