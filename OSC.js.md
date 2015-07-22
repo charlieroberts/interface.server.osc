@@ -1,7 +1,7 @@
 OSC
 ===
 _ is our lo-dash reference; omgosc refers to the node module, https://github.com/deanm/omgosc.
-TODO: There is a change omgosc should be replaced with osc-min... requires research.
+TODO: There is a chance omgosc should be replaced with osc-min... requires research.
 
     !function() {
       
@@ -17,6 +17,7 @@ TODO: There is a change omgosc should be replaced with osc-min... requires resea
       app: IS,
       
       receivers: {},
+      outputDestinations: [],
       
       out: null,
       
@@ -65,16 +66,23 @@ will be used. Return the newly opened socket for sending messages.
       sender: function( _ip, _port ) {
         var port = _port || 8080,
             ip   = _ip || '127.0.0.1',
+            destination = { 'port':port, 'ip':ip },
             sender = {}
             //sender = new omgosc.UdpSender( ip, port )
+        
+        if( !OSC.outputDestinations.indexOf( destination ) ) {
+          OSC.outputDestinations.push( destination )
+        }
         
         OSC.out.output = function( address, typetags, values ) {
           var buf = oscMin.toBuffer({
             address: address,
             args: values
           })
-      
-          OSC.out.send( buf, 0, buf.length, port, ip )
+          
+          for( var i = 0; i < OSC.outputs.length; i++ ) {
+            OSC.out.send( buf, 0, buf.length, OSC.outputs[ i ].port, OSC.outputs[ i ].ip )
+          } 
           //this.send( address, typetags, values )
         }
         

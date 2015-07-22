@@ -11,6 +11,7 @@ OSC = {
   app: IS,
   
   receivers: {},
+  outputDestinations: [],
   
   out: null,
   
@@ -53,17 +54,23 @@ OSC = {
   sender: function( _ip, _port ) {
     var port = _port || 8080,
         ip   = _ip || '127.0.0.1',
+        destination = { 'port':port, 'ip':ip },
         sender = {}
         //sender = new omgosc.UdpSender( ip, port )
+    
+    if( OSC.outputDestinations.indexOf( destination ) === -1 ) {
+      OSC.outputDestinations.push( destination )
+    }
     
     OSC.out.output = function( address, typetags, values ) {
       var buf = oscMin.toBuffer({
         address: address,
         args: values
       })
-  
-      OSC.out.send( buf, 0, buf.length, port, ip )
-      //this.send( address, typetags, values )
+      
+      for( var i = 0; i < OSC.outputDestinations.length; i++ ) {
+        OSC.out.send( buf, 0, buf.length, OSC.outputDestinations[ i ].port, OSC.outputDestinations[ i ].ip )
+      } 
     }
     
     return OSC.out
@@ -78,6 +85,7 @@ OSC = {
         recv.close()
       })
       this.receivers = {}
+      this.outputDestinations = []
     }
   },
 }
