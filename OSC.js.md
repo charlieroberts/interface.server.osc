@@ -66,27 +66,18 @@ will be used. Return the newly opened socket for sending messages.
       sender: function( _ip, _port ) {
         var port = _port || 8080,
             ip   = _ip || '127.0.0.1',
-            destination = { 'port':port, 'ip':ip },
-            sender = {}
-            //sender = new omgosc.UdpSender( ip, port )
+            obj = { 
+              output : function( address, typetags, values ) {
+                var buf = oscMin.toBuffer({
+                  address: address,
+                  args: values
+                })
         
-        if( !OSC.outputDestinations.indexOf( destination ) ) {
-          OSC.outputDestinations.push( destination )
-        }
-        
-        OSC.out.output = function( address, typetags, values ) {
-          var buf = oscMin.toBuffer({
-            address: address,
-            args: values
-          })
-          
-          for( var i = 0; i < OSC.outputs.length; i++ ) {
-            OSC.out.send( buf, 0, buf.length, OSC.outputs[ i ].port, OSC.outputs[ i ].ip )
-          } 
-          //this.send( address, typetags, values )
-        }
-        
-        return OSC.out
+                OSC.out.send( buf, 0, buf.length, port, ip ) 
+              }
+            }
+    
+        return obj
       },
 
 *close* Close a socket using an optional name argument. If no name argument is provided, all
