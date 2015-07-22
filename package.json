@@ -1,6 +1,6 @@
 {
   "name": "interface.server.osc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "osc module for interface.server",
   "main": "OSC.js",
   "dependencies": {
