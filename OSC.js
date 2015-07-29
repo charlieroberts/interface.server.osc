@@ -53,19 +53,18 @@ OSC = {
   },
   sender: function( _ip, _port ) {
     var port = _port || 8080,
-        ip   = _ip || '127.0.0.1'
+        ip   = _ip || '127.0.0.1',
+        obj = { 
+          output : function( address, typetags, values ) {
+            var buf = oscMin.toBuffer({
+              address: address,
+              args: values
+            })
     
-    var obj = { 
-      output : function( address, typetags, values ) {
-        var buf = oscMin.toBuffer({
-          address: address,
-          args: values
-        })
-        
-        OSC.out.send( buf, 0, buf.length, port, ip ) 
-      }
-    }
-    
+            OSC.out.send( buf, 0, buf.length, port, ip ) 
+          }
+        }
+
     return obj
   },
   
@@ -78,7 +77,6 @@ OSC = {
         recv.close()
       })
       this.receivers = {}
-      this.outputDestinations = []
     }
   },
 }
